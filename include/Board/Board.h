@@ -12,14 +12,15 @@ class Board {
 private:
     char ** board;
     int size;
+    char emptyChar;
 
 public:
-    Board(int size, char empty = ' ');      // Constructor, requires a size, defining empty char is optional
-    ~Board();                               // Destructor
+    Board(int size = 3, char emptyChar = ' ');      // Constructor, requires a size, defining empty char is optional
+    ~Board();                                       // Destructor
 
-    int getSize();                          // Returns the size of the board
-    bool isEmpty();                         // Checks if the board has any empty spaces left
-    Move** getAvailableMoves();             // Returns list of open spots in the board
+    int getSize() const;                            // Getter for int size
+    bool isEmpty();                                 // Checks if the board has any empty spaces left
+    Move** getAvailableMoves();                     // Returns list of open spots in the board
 };
 
 
