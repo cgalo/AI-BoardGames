@@ -15,12 +15,14 @@ private:
     char emptyChar;
 
 public:
-    Board(int size = 3, char emptyChar = ' ');      // Constructor, requires a size, defining empty char is optional
+    Board(int size = 3, char emptyChar = ' ');      // Constructor, size and emptyChar have a default value if not given
     ~Board();                                       // Destructor
 
     int getSize() const;                            // Getter for int size
     bool isEmpty();                                 // Checks if the board has any empty spaces left
     Move** getAvailableMoves();                     // Returns list of open spots in the board
+    void setMove(Move* move, char val);             // Set move allows the user to set value inside the Board
+    void setMove(int row, int col, char val);       // Set move allows the user to set value inside the Board
 };
 
 
