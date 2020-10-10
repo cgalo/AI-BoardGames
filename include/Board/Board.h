@@ -29,6 +29,7 @@ public:
     Move** getAvailableMoves();                         // Returns list of open spots in the board
     void setMove(Move* move, char val);                 // Set move allows the user to set value inside the Board
     void setMove(int row, int col, char val);           // Set move allows the user to set value inside the Board
+    void printBoard();                                  // Outputs the current state of the board
 };
 
 

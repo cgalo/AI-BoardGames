@@ -168,3 +168,29 @@ bool Board::setMoveHelper(int row, int col, char val) {
     board[row][col] = val;                      // Set the value in the given location of the board
     return (board[row][col] == val);            // Return true if the value was successfully set, else return false
 }
+
+void Board::printBoard()
+{
+    /**
+     * Method prints the current state of the board
+     */
+
+    std::cout << "\n\n\n";                          // Create space between what was before printing the board
+
+    for (int row = 0; row < getSize(); row++)       // Iterate through the every row
+    {
+        for (int col = 0; col < getSize(); col++)   // Iterate through every column
+        {
+            std::cout << "  " << board[row][col] << "  ";
+            if (col < getSize() - 1)
+                std::cout << "|";
+        }
+        std::cout << std::endl;
+        if (row < getSize() -1)
+        {
+            for (int j = 0; j < getSize(); j++)
+                std::cout << "------";
+            std::cout << std::endl;
+        }
+    }
+}
