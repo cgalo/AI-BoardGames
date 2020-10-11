@@ -16,7 +16,7 @@ private:
 
 
     // Methods
-    int evaluateBoard(Board* board);    // Evaluate the given board and determines if there is a winner or a tie
+    int evaluateBoard(Board* board) const;    // Evaluate the given board and determines if there is a winner or a tie
     bool isGameDone(int score);         // Evaluates if the game is done by either a tie or a winner
 
 public:

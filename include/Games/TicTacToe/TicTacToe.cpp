@@ -29,7 +29,7 @@ bool TicTacToe::isGameDone(int score)
      * Method evaluate the current state of the board to determine if the game is over
      *
      * @param score is given by the evaluationBoard method, which determines the score of the board
-     * @return true if the score is either -1 or 1, or if the score is 0 and the board has no empty moves
+     * @return true if the score is either -1 or 1, or if the score is 0 and the board has no empty spaces
      * @return false if the score is 0 and the board is not empty
      */
 
@@ -38,7 +38,7 @@ bool TicTacToe::isGameDone(int score)
     else return false;
 }
 
-int TicTacToe::evaluateBoard(Board *board)
+int TicTacToe::evaluateBoard(Board *board) const
 {
 
     // First lets see if there is a winner through all rows/horizontally
@@ -98,9 +98,11 @@ void TicTacToe::start()
      * This is the driver method for the Tic tac toe game.
      */
 
-    int boardScore = 0;             // We start with an empty board, with a score of 0
+    int boardScore = 0;                     // We start with an empty board, with a score of 0
+    while (!isGameDone(boardScore))         // While the game is not done
+    {
 
-    
+    }
 
     // We evaluate who is the winner and output a message of the end state of the game
     if (boardScore == 0)
