@@ -100,15 +100,15 @@ void TicTacToe::start()
 
     int boardScore = 0;             // We start with an empty board, with a score of 0
 
-
+    
 
     // We evaluate who is the winner and output a message of the end state of the game
     if (boardScore == 0)
-        std::cout << "Looks like the game ended in a tie, nice game!" << std::endl;
+        std::cout << "Looks like the game ended in a tie, good game!" << std::endl;
     else if (boardScore == 1)
-        std::cout << "X is the winner, congratulations!" << std::endl;
+        std::cout << "\n\tX is the winner, congratulations!" << std::endl;
     else
-        std::cout << "O is the winner, congratulations!" << std::endl;
+        std::cout << "\n\tO is the winner, congratulations!" << std::endl;
 
 
 }
