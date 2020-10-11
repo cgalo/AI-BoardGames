@@ -99,7 +99,7 @@ void TicTacToe::start()
      */
 
     int boardScore = 0;             // We start with an empty board, with a score of 0
-    
+
 
 
     // We evaluate who is the winner and output a message of the end state of the game

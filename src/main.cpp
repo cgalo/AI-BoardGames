@@ -14,6 +14,8 @@ int main(int argc, char **argv) {
         if (board)
             cout << "\tBoardTest passed!" << endl;
 
+        cout << "\nRunning TicTacToeTest..." << endl;       // Test the TicTacToe class
+
         // Perform garbage collection
         delete boardTest;
     }
