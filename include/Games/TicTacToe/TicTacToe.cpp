@@ -91,3 +91,24 @@ int TicTacToe::evaluateBoard(Board *board)
     // Else there is no winner, this is a tie state
     return 0;
 }
+
+void TicTacToe::start()
+{
+    /**
+     * This is the driver method for the Tic tac toe game.
+     */
+
+    int boardScore = 0;             // We start with an empty board, with a score of 0
+    
+
+
+    // We evaluate who is the winner and output a message of the end state of the game
+    if (boardScore == 0)
+        std::cout << "Looks like the game ended in a tie, nice game!" << std::endl;
+    else if (boardScore == 1)
+        std::cout << "X is the winner, congratulations!" << std::endl;
+    else
+        std::cout << "O is the winner, congratulations!" << std::endl;
+
+
+}
