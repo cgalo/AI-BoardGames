@@ -14,10 +14,10 @@
 
 class AI {
 protected:
-    virtual int MiniMax(Board* board, int depth, bool isMax) = 0;
+    virtual int MiniMax(Board* board, int depth, bool isMax) const = 0;
 public:
-    virtual int evalBoard(Board* board) = 0;
-    virtual Move* getBestBoard(Board* board) = 0;
+    virtual int evalBoard(Board* board) const = 0;
+    virtual Move* getBestMove(Board* board) = 0;
 };
 
 #endif //AI_BOARDGAMES_AI_H

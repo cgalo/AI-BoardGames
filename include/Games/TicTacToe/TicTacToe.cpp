@@ -38,72 +38,19 @@ bool TicTacToe::isGameDone(int score)
     else return false;
 }
 
-int TicTacToe::evaluateBoard(Board *board) const
-{
-
-    // First lets see if there is a winner through all rows/horizontally
-    for (int row = 0; row < board->getSize(); row++)
-    {
-        // If all the values/columns in this row are the same
-        if (board->getValue(row, 0) == board->getValue(row, 1) &&
-            board->getValue(row, 1) == board->getValue(row, 2))
-        {
-            // Check which player won
-            if (board->getValue(row, 0) == p1)                  // If Player1 (X) is the winner
-                return +1;
-            else if (board->getValue(row, 0) == p2)             // Player2 (O) is the winner
-                return -1;
-        }
-    }
-
-    // We get here if no player has won horizontally, now we check vertically (through columns)
-    for (int column = 0; column < board->getSize(); column++)
-    {
-        if (board->getValue(0, column) == board->getValue(1, column) &&
-            board->getValue(1, column) == board->getValue(2, column))
-        {
-            if (board->getValue(0, column) == p1)           // If Player1 (X) is the winner
-                return 1;
-            else if (board->getValue(0, column == p2))  // If Player2 (O) is the winner
-                return -1;
-        }
-    }
-
-    // We get here if they didn't win either horizontally or vertically, now we check diagonally
-    if (board->getValue(0,0) == board->getValue(1,1) &&
-        board->getValue(1,1) == board->getValue(2,2))
-    {
-        if (board->getValue(0,0) == p1)                 // If Player1 (X) is the winner
-            return 1;
-        else if (board->getValue(0,0) == p2)            // If player2 (O) is the winner
-            return -1;
-    }
-
-    if (board->getValue(0,2) == board->getValue(1,1) &&
-        board->getValue(1,1) == board->getValue(2,0))
-    {
-        if (board->getValue(0, 2) == p1)                // If Player1 (X) is the winner
-            return 1;
-        else if (board->getValue(0,2) == p2)            // If Player2 (O) is the winner
-            return -1;
-    }
-
-    // Else there is no winner, this is a tie state
-    return 0;
-}
-
 void TicTacToe::start()
 {
     /**
      * This is the driver method for the Tic tac toe game.
      */
 
-    int boardScore = 0;                     // We start with an empty board, with a score of 0
-    while (!isGameDone(boardScore))         // While the game is not done
+    int boardScore = 0;                         // We start with an empty board, with a score of 0
+    TTT_AI * AI = new TTT_AI(p1, p2);           // Initiate the AI, letting it know p1 is max & p2 is min
+
+    while (!isGameDone(boardScore))
     {
-
+        boardScore=  AI->evalBoard(mainBoard);  // Let the AI check the state of the board
     }
-
     // We evaluate who is the winner and output a message of the end state of the game
     if (boardScore == 0)
         std::cout << "Looks like the game ended in a tie, good game!" << std::endl;

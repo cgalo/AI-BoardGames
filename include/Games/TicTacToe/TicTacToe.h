@@ -7,7 +7,9 @@
 #ifndef AI_BOARDGAMES_TICTACTOE_H
 #define AI_BOARDGAMES_TICTACTOE_H
 
-#include "../../Board/Board.h"          // Import the Board
+#include "../../AIs/TTT_AI/TTT_AI.h"    // Import the AI to evaluate the board and provided the best move
+#include "../../AIs/AI.h"
+
 class TicTacToe {
 private:
     // Set the values for player1, player2, and what is considered as an empty space in the board
@@ -16,7 +18,6 @@ private:
 
 
     // Methods
-    int evaluateBoard(Board* board) const;    // Evaluate the given board and determines if there is a winner or a tie
     bool isGameDone(int score);         // Evaluates if the game is done by either a tie or a winner
 
 public:
