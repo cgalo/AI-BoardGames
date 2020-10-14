@@ -101,29 +101,30 @@ Move * TTT_AI::getBestMove(Board *board)
 
 int TTT_AI::MiniMax(Board *board, int depth, bool isMax, int alpha, int beta) const
 {
-    int score = evalBoard(board);
-    // If the current state of the board is a terminal state
-    // Then return value of the board
-    if (score == 10)
-        return score - depth;
-    if (score == -10)
-        return score + depth;
-    if (board->isFull() && score == 0)
-        return 0;
+    int score = evalBoard(board);                                       // Evaluate the current state of the board
+    /* If the current state of the board is a terminal state
+     Then return value of the board*/
+    if (score == 10)                                                    // If this is a terminal state where max is winner
+        return score - depth;                                           // We return the score minus the depth
+    if (score == -10)                                                   // If this is a terminal state where min is winner
+        return score + depth;                                           // Return score plus depth
+    if (board->isFull() && score == 0)                                  // If this is a terminal state with a tie
+        return score;                                                   // Return score, which is 0
 
-    if (isMax)
+    Move** moves = board->getAvailableMoves();                          // Get the available moves/spaces for the current state
+    int totMoves = board->getSize() * board->getSize();                 // Max possible moves in tic tac toe is 3*3
+
+    if (isMax)                                                          // If we are maximizing
     {
-        Move** moves = board->getAvailableMoves();
-        int totMoves = board->getSize() * board->getSize();
-        int maxScore = INT_MIN;
+        int maxScore = INT_MIN;                                         // Value will be used to keep track of the max score
         for (int i = 0; i < totMoves; i++)
         {
-            Move *move = moves[i];
-            if (move != nullptr)
-            {
-                board->setMove(move, maxP);
-                int score = MiniMax(board, depth+1, false, alpha, beta);
-                board->setMove(move, board->getEmptyChar());
+            Move* move = moves[i];                                      // Get the move from the current index of moves
+            if (move != nullptr)                                        // If the move is not null
+            {                                                           // Then we evaluate the state for with the move
+                board->setMove(move, maxP);                             // Perform the move in the board
+                int score = MiniMax(board, depth+1, false, alpha, beta);    // Evaluate the state for this board, next state we minimize
+                board->setMove(move, board->getEmptyChar());            // Revert the done
                 maxScore = (score > maxScore) ? score : maxScore;       // If maxScore is less than score, make score the new maxScore
                 alpha = (maxScore > alpha) ? maxScore : alpha;          // If alpha is less than maxScore, make maxScore the new alpha
                 // Perform alpha-beta pruning
@@ -131,31 +132,26 @@ int TTT_AI::MiniMax(Board *board, int depth, bool isMax, int alpha, int beta) co
                     break;                                              // We break, we stop evaluating
             }
         }
-        return maxScore;
+        return maxScore;                                                // Return the max score found
     }
-    else
+    else                                                                // Else we are minimizing 
     {
-        Move** moves = board->getAvailableMoves();
-        int totMoves = board->getSize() * board->getSize();
-        int minScore = INT_MAX;
+        int minScore = INT_MAX;                                         // Keep track of the lowest/min score
         for (int i = 0; i < totMoves; i++)
         {
-            Move* move = moves[i];
-            if (move != nullptr)
-            {
+            Move* move = moves[i];                                      // Get the move from the current index of moves
+            if (move != nullptr)                                        // If the move is not null
+            {                                                           // Then we evaluate the state for with the move
                 board->setMove(move, minP);                             // Make the move to evaluate the possible new state
-                int score = MiniMax(board, depth + 1, true, alpha, beta);   // To get the score for the current state
-                board->setMove(move, board->getEmptyChar());            // Reset the move
+                int score = MiniMax(board, depth + 1, true, alpha, beta);   // Evaluate the state for this board, next move we maximize
+                board->setMove(move, board->getEmptyChar());            // Revert the done
                 minScore = (score < minScore) ? score : minScore;       // If the score is less than minScore, make the score the new minScore
                 beta = (minScore < beta) ? minScore : beta;             // If minScore is less than beta, make minScore the new beta
-
                 // Perform alpha-beta pruning
                 if (beta <= alpha)                                      // If beta es less than or equal than alpha
                     break;                                              // We break, we stop evaluating
             }
         }
-        return minScore;
+        return minScore;                                                // Return the lowest score found
     }
-
-
 }
