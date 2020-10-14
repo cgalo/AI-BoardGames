@@ -50,7 +50,7 @@ int Board::getSize() const
     return this->size;                          // Return the size of the board
 }
 
-bool Board::isEmpty()
+bool Board::isFull()
 {
     /**
      * Method checks if there is at least one empty space in the current state of the board
@@ -63,8 +63,8 @@ bool Board::isEmpty()
     for (int row = 0; row < size; row++)
         for (int col = 0; col < size; col++)
             if (board[row][col] == emptyChar)
-                return true;
-    return false;
+                return false;
+    return true;
 }
 
 Move ** Board::getAvailableMoves()
@@ -79,7 +79,7 @@ Move ** Board::getAvailableMoves()
      * */
 
     // Base case
-    if (!isEmpty())                                     // If the board has no empty spaces in it
+    if (isFull())                                       // If the board has no empty spaces in it
         return nullptr;                                 // Return nullptr
 
     int maxMoves = size * size;                         // Total possible moves is the size * size
@@ -175,8 +175,6 @@ void Board::printBoard()
      * Method prints the current state of the board
      */
 
-    std::cout << "\n\n\n";                          // Create space between what was before printing the board
-
     for (int row = 0; row < getSize(); row++)       // Iterate through the every row
     {
         for (int col = 0; col < getSize(); col++)   // Iterate through every column
@@ -193,4 +191,35 @@ void Board::printBoard()
             std::cout << std::endl;
         }
     }
+}
+
+char Board::getValueHelper(int row, int col)
+{
+    /**
+     * Method returns the element of the board, given it's row and column index location.
+     *
+     * @param int row, the first index of the matrix
+     * @param int col, the 2nd index of the matrix to get the value
+     * @returns the element in the given location from the matrix/graph
+     */
+
+    if(isMoveValid(row, col))       // If the given row/column are within the range of the graph/matrix
+        return board[row][col];     // Return the value in the matrix/board
+    else                            // Else the given row/column are not within the graphing, output error
+        std::cerr << "Out of bound error! Trying to get value outside the size of the board." << std::endl;
+}
+
+char Board::getValue(Move *move)
+{
+    return getValueHelper(move->getRow(), move->getColumn());
+}
+
+char Board::getValue(int row, int col)
+{
+    return getValueHelper(row, col);
+}
+
+char Board::getEmptyChar() const
+{
+    return emptyChar;
 }

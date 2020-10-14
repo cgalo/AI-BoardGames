@@ -67,36 +67,36 @@ private:
 
     }
 
-    bool isEmptyTest()
+    bool isFullTest()
     {
         bool results = true;                        // We'll use this to return if the test worked as expected
         // First lets check isEmpty method with an empty board, no moves done yet
         Board * board1 = new Board();               // This will be set to default size 3 with emptyChar = (' ')
-        if (!board1->isEmpty())                     // If the board is marked as not empty, aka it thinks it's full
+        if (board1->isFull())                       // If the board is marked as full
         {
             // We expect this to never happen, so we output an error as log and set results to false
-            std::cerr << "Fail task: isEmptyTest, Board1\n"
-                         "Board1 was expected to return isEmpty as true but returned false" << std::endl;
+            std::cerr << "Fail task: isFullTest, Board1\n"
+                         "Board1 was expected to return isFullTest as false but returned true" << std::endl;
             results = false;
         }
 
         // Now lets test with an halfway filled board
         Board * board2 = testingBoard();            // Get a board with values in it
-        if (!board2->isEmpty())                     // If the board is marked as not empty, aka it thinks it's full
+        if (board2->isFull())                       // If the board is marked as full
         {
             // We expect this to never happen, so we output an error as log and set results to false
-            std::cerr << "Fail task: isEmptyTest, Board2\n"
-                         "Board2 was expected to return isEmpty as true but returned false" << std::endl;
+            std::cerr << "Fail task: isFullTest, Board2\n"
+                         "Board2 was expected to return isFull as false but returned true" << std::endl;
             results = false;
         }
 
-        // Now we'll test for a board that has no empty spaces
+        // Now we'll test for a board that has no empty spaces, aka it's not full
         Board * board3 = fullBoard();               // Get the testingBoard with some filled values
-        if (board3->isEmpty())                      // If the fullBoard is marked as empty
+        if (!board3->isFull())                      // If the fullBoard is marked as full
         {
             // We expect this to never happen, so we output an error as log and set results to false
-            std::cerr << "Fail task: isEmptyTest, Board3\n"
-                         "Board3 was expected to return isEmpty as false but returned true" << std::endl;
+            std::cerr << "Fail task: isFullTest, Board3\n"
+                         "Board3 was expected to return isFull as true but returned false" << std::endl;
             results = false;
         }
 
@@ -182,7 +182,7 @@ public:
 
         // Call and get the results of the tests
         bool testSize = sizeTest();
-        bool testIsEmpty = isEmptyTest();
+        bool testIsEmpty = isFullTest();
         bool testMoves = availableMovesTest();
 
         // If we failed any of our tests
