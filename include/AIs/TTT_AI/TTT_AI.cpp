@@ -28,9 +28,9 @@ int TTT_AI::evalBoard(Board *board) const
         {
             // Check which player won
             if (board->getValue(row, 0) == maxP)                // If Player1 (X) is the winner
-                return +1;
+                return 10;
             else if (board->getValue(row, 0) == minP)           // Player2 (O) is the winner
-                return -1;
+                return -10;
         }
     }
 
@@ -40,10 +40,10 @@ int TTT_AI::evalBoard(Board *board) const
         if (board->getValue(0, column) == board->getValue(1, column) &&
             board->getValue(1, column) == board->getValue(2, column))
         {
-            if (board->getValue(0, column) == maxP)           // If Player1 (X) is the winner
-                return 1;
-            else if (board->getValue(0, column == minP))  // If Player2 (O) is the winner
-                return -1;
+            if (board->getValue(0, column) == maxP)         // If Player1 (X) is the winner
+                return 10;
+            if (board->getValue(0, column) == minP)         // If Player2 (O) is the winner
+                return -10;
         }
     }
 
@@ -52,18 +52,18 @@ int TTT_AI::evalBoard(Board *board) const
         board->getValue(1,1) == board->getValue(2,2))
     {
         if (board->getValue(0,0) == maxP)                 // If Player1 (X) is the winner
-            return 1;
+            return 10;
         else if (board->getValue(0,0) == minP)            // If player2 (O) is the winner
-            return -1;
+            return -10;
     }
 
     if (board->getValue(0,2) == board->getValue(1,1) &&
         board->getValue(1,1) == board->getValue(2,0))
     {
         if (board->getValue(0, 2) == maxP)                // If Player1 (X) is the winner
-            return 1;
+            return 10;
         else if (board->getValue(0,2) == minP)            // If Player2 (O) is the winner
-            return -1;
+            return -10;
     }
 
     // Else there is no winner, this is a tie state
@@ -72,10 +72,84 @@ int TTT_AI::evalBoard(Board *board) const
 
 Move * TTT_AI::getBestMove(Board *board)
 {
-    return nullptr;
+    Move** moves = board->getAvailableMoves();
+    int totMoves = board->getSize() * board->getSize();
+    int bestScore = INT_MIN;
+    Move* bestMove = new Move();
+    for (int i = 0; i  < totMoves; i++)
+    {
+        Move* move = moves[i];
+        if (move != nullptr)
+        {
+            int row = move->getRow(), col = move->getColumn();
+            board->setMove(row, col, maxP);
+            int tempScore = MiniMax(board, 0, false);
+            board->setMove(row, col, board->getEmptyChar());
+            if (tempScore > bestScore)
+            {
+                bestScore = tempScore;
+                bestMove->setRow(row);
+                bestMove->setColumn(col);
+            }
+
+        }
+        else
+            continue;
+    }
+    return bestMove;
 }
 
 int TTT_AI::MiniMax(Board *board, int depth, bool isMax) const
 {
-    return 0;
+    int score = evalBoard(board);
+    // If the current state of the board is a terminal state
+    // Then return value of the board
+    if (score == 10)
+        return score - depth;
+    if (score == -10)
+        return score + depth;
+    if (board->isFull() && score == 0)
+        return 0;
+
+    if (isMax)
+    {
+        Move** moves = board->getAvailableMoves();
+        int totMoves = board->getSize() * board->getSize();
+        int maxScore = INT_MIN;
+        for (int i = 0; i < totMoves; i++)
+        {
+            Move *move = moves[i];
+            if (move != nullptr)
+            {
+                board->setMove(move, maxP);
+                int score = MiniMax(board, depth+1, false);
+                board->setMove(move, board->getEmptyChar());
+                if (score > maxScore)
+                    maxScore = score;
+            }
+        }
+        return maxScore;
+    }
+    else
+    {
+        Move** moves = board->getAvailableMoves();
+        int totMoves = board->getSize() * board->getSize();
+        int minScore = INT_MAX;
+        for (int i = 0; i < totMoves; i++)
+        {
+            Move* move = moves[i];
+            if (move != nullptr)
+            {
+                board->setMove(move, minP);
+                int score = MiniMax(board, depth + 1, true);
+                board->setMove(move, board->getEmptyChar());
+
+                if (score < minScore)
+                    minScore = score;
+            }
+        }
+        return minScore;
+    }
+
+
 }

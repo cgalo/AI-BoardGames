@@ -50,7 +50,7 @@ int Board::getSize() const
     return this->size;                          // Return the size of the board
 }
 
-bool Board::isEmpty()
+bool Board::isFull()
 {
     /**
      * Method checks if there is at least one empty space in the current state of the board
@@ -63,8 +63,8 @@ bool Board::isEmpty()
     for (int row = 0; row < size; row++)
         for (int col = 0; col < size; col++)
             if (board[row][col] == emptyChar)
-                return true;
-    return false;
+                return false;
+    return true;
 }
 
 Move ** Board::getAvailableMoves()
@@ -79,7 +79,7 @@ Move ** Board::getAvailableMoves()
      * */
 
     // Base case
-    if (!isEmpty())                                     // If the board has no empty spaces in it
+    if (isFull())                                       // If the board has no empty spaces in it
         return nullptr;                                 // Return nullptr
 
     int maxMoves = size * size;                         // Total possible moves is the size * size
@@ -175,8 +175,6 @@ void Board::printBoard()
      * Method prints the current state of the board
      */
 
-    std::cout << "\n\n\n";                          // Create space between what was before printing the board
-
     for (int row = 0; row < getSize(); row++)       // Iterate through the every row
     {
         for (int col = 0; col < getSize(); col++)   // Iterate through every column
@@ -219,4 +217,9 @@ char Board::getValue(Move *move)
 char Board::getValue(int row, int col)
 {
     return getValueHelper(row, col);
+}
+
+char Board::getEmptyChar() const
+{
+    return emptyChar;
 }

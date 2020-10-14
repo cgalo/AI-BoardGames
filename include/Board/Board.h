@@ -26,13 +26,14 @@ public:
 
     // Methods
     int getSize() const;                                // Getter for int size
-    bool isEmpty();                                     // Checks if the board has any empty spaces left
+    bool isFull();                                      // Checks if the board is full
     Move** getAvailableMoves();                         // Returns list of open spots in the board
     void setMove(Move* move, char val);                 // Set move allows the user to set value inside the Board
     void setMove(int row, int col, char val);           // Set move allows the user to set value inside the Board
     void printBoard();                                  // Outputs the current state of the board
     char getValue(Move* move);                          // Get the element from the board given a Move
     char getValue(int row, int col);                    // Get the element given the index row & column location
+    char getEmptyChar() const;                          // Return the value for the emptyChar of this board
 };
 
 

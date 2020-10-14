@@ -13,7 +13,7 @@
 class TicTacToe {
 private:
     // Set the values for player1, player2, and what is considered as an empty space in the board
-    const char p1 =  'X', p2 = '0', empty = ' ';
+    const char p1 =  'X', p2 = 'O', empty = ' ';
     Board * mainBoard;                  // 3x3 board
 
 
