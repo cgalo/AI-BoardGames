@@ -12,7 +12,7 @@ protected:
     char maxP, minP;                                    // Max and min player
 
     // Methods
-    int MiniMax(Board* board, int depth, bool isMax) const;   // Recursive function to returns the value of the board
+    int MiniMax(Board* board, int depth, bool isMax, int alpha, int beta) const;   // Recursive function to returns the value of the board
 
 public:
     explicit TTT_AI(char maxP = 'X', char minP = 'O');           // Constructor

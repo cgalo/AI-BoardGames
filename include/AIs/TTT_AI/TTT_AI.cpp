@@ -83,7 +83,7 @@ Move * TTT_AI::getBestMove(Board *board)
         {
             int row = move->getRow(), col = move->getColumn();
             board->setMove(row, col, maxP);
-            int tempScore = MiniMax(board, 0, false);
+            int tempScore = MiniMax(board, 0, false, INT_MIN, INT_MAX);
             board->setMove(row, col, board->getEmptyChar());
             if (tempScore > bestScore)
             {
@@ -99,7 +99,7 @@ Move * TTT_AI::getBestMove(Board *board)
     return bestMove;
 }
 
-int TTT_AI::MiniMax(Board *board, int depth, bool isMax) const
+int TTT_AI::MiniMax(Board *board, int depth, bool isMax, int alpha, int beta) const
 {
     int score = evalBoard(board);
     // If the current state of the board is a terminal state
@@ -122,10 +122,13 @@ int TTT_AI::MiniMax(Board *board, int depth, bool isMax) const
             if (move != nullptr)
             {
                 board->setMove(move, maxP);
-                int score = MiniMax(board, depth+1, false);
+                int score = MiniMax(board, depth+1, false, alpha, beta);
                 board->setMove(move, board->getEmptyChar());
-                if (score > maxScore)
-                    maxScore = score;
+                maxScore = (score > maxScore) ? score : maxScore;       // If maxScore is less than score, make score the new maxScore
+                alpha = (maxScore > alpha) ? maxScore : alpha;          // If alpha is less than maxScore, make maxScore the new alpha
+                // Perform alpha-beta pruning
+                if (beta <= alpha)                                      // If beta es less than or equal than alpha
+                    break;                                              // We break, we stop evaluating
             }
         }
         return maxScore;
@@ -140,12 +143,15 @@ int TTT_AI::MiniMax(Board *board, int depth, bool isMax) const
             Move* move = moves[i];
             if (move != nullptr)
             {
-                board->setMove(move, minP);
-                int score = MiniMax(board, depth + 1, true);
-                board->setMove(move, board->getEmptyChar());
+                board->setMove(move, minP);                             // Make the move to evaluate the possible new state
+                int score = MiniMax(board, depth + 1, true, alpha, beta);   // To get the score for the current state
+                board->setMove(move, board->getEmptyChar());            // Reset the move
+                minScore = (score < minScore) ? score : minScore;       // If the score is less than minScore, make the score the new minScore
+                beta = (minScore < beta) ? minScore : beta;             // If minScore is less than beta, make minScore the new beta
 
-                if (score < minScore)
-                    minScore = score;
+                // Perform alpha-beta pruning
+                if (beta <= alpha)                                      // If beta es less than or equal than alpha
+                    break;                                              // We break, we stop evaluating
             }
         }
         return minScore;
